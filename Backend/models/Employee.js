@@ -21,6 +21,9 @@ const employeeSchema = new mongoose.Schema({
   salary: {
     type: Number,
   },
+  birthday: {
+    type: Date,
+  },
 });
 
 const Employee = mongoose.model('Employee', employeeSchema);

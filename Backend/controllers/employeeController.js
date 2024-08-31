@@ -1,11 +1,31 @@
 const Employee = require('../models/Employee');
+const Department = require('../models/Department');
 
 exports.createEmployee = async (req, res) => {
   try {
-    const employee = new Employee(req.body);
+    console.log("body", req.body);
+
+    const department = await Department.findOne({ name: req.body.department });
+
+    console.log("department", department);
+
+    if (!department) {
+      return res.status(400).json({ message: 'Department not found' });
+    }
+
+    const employeeData = {
+      ...req.body,
+      department: department._id,
+    };
+
+    console.log("employeeData", employeeData);
+
+    const employee = new Employee(employeeData);
     await employee.save();
+
     res.status(201).json(employee);
   } catch (error) {
+    console.log("Error Adding Employee", error)
     res.status(400).json({ message: error.message });
   }
 };

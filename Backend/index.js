@@ -15,6 +15,20 @@ app.use(cors());
 app.use('/departments', departmentRoutes);
 app.use('/employees', employeeRoutes);
 
+app.use((req, res) => {
+  console.log(`${req.originalUrl} Endpoint Not found`);
+  res.status(404).json({
+      message: `${req.originalUrl} Endpoint Not found`
+  });
+});
+
+app.use((error, req, res) => {
+  console.log("Error :", error);
+  res.status(500).json({
+      message: error.message
+  });
+});
+
 
 connectDB();
 
