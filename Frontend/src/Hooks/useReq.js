@@ -10,7 +10,9 @@ export const useReq = (setLoading) => {
     setLoading(true);
     setError(null);
 
-    
+    console.log("req data", data)
+
+
     try {
       let response;
 

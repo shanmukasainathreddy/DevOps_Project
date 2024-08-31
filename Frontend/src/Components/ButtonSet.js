@@ -7,7 +7,7 @@ import { EmployeeForm } from './Forms';
 
 
 export default function ButtonSet(props) {
-    const { add, section, setSection, isLoading, setLoading, disabled } = props;
+    const { add, section, setSection, isLoading, setLoading, setTableData, itemsToRemove, editData, editItem, removeItems } = props;
     const [isModalOpen, setModelOpen] = useState(false);
     const [formData, setFormData] = useState({});
 
@@ -38,11 +38,11 @@ export default function ButtonSet(props) {
         }, 5000);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Employee added:');
         closeModel();
-        add(section, formData);
+        const updatedData = await add(section, formData);
+        setTableData(updatedData);
     };
 
     
@@ -75,9 +75,10 @@ export default function ButtonSet(props) {
                 </ButtonGroup>
             </Box>
 
-            <Box sx={{ position: "absolute", right: "10px", width: "165px", display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ position: "absolute", right: "10px", width: "250px", display: "flex", justifyContent: "space-between" }}>
                 <Button variant="contained" onClick={() => setModelOpen(true)}>ADD</Button>
-                <Button variant="contained" color='error' disabled={disabled}>Delete</Button>
+                <Button variant="contained" onClick={editItem} disabled={typeof(editData) !== 'object'}>Save</Button>
+                <Button variant="contained" onClick={removeItems} color='error' disabled={itemsToRemove.length === 0}>Delete</Button>
             </Box>
 
             <Modal open={isModalOpen} onClose={closeModel}>

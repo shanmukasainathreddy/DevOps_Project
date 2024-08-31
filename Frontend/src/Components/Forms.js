@@ -15,7 +15,6 @@ export function EmployeeForm({ formData, setFormData }) {
         ));
     };
 
-    const requiredDate = dayjs().subtract(18, 'year');
 
     return (
         <>
@@ -70,18 +69,28 @@ export function EmployeeForm({ formData, setFormData }) {
                 </Select>
             </FormControl>
 
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker 
-                    label="Birthday"
-                    format='YYYY-MM-DD'
-                    value={!formData.birthday ? requiredDate : dayjs(formData.birthday)}
-                    maxDate={requiredDate}
-                    onChange={(date) => handleChange({
-                        target:{name: "birthday", value: date.format('YYYY-MM-DD')}}
-                    )}
-                />
-            </LocalizationProvider>
+            <DateInput value={formData.birthday} onChange={(date) => handleChange({
+                target:{name: "birthday", value: date}}
+            )} />
         </> 
     );
+}
+
+
+export function DateInput({value, onChange}){
+    const requiredDate = dayjs().subtract(18, 'year');
+
+    return(
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker 
+                label="Birthday"
+                format='YYYY-MM-DD'
+                value={!value ? requiredDate : dayjs(value)}
+                maxDate={requiredDate}
+                onChange={(date) => onChange(date.format('YYYY-MM-DD'))}
+            />
+        </LocalizationProvider>
+    )
+
 }
 

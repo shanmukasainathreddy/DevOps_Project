@@ -1,25 +1,25 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { Button } from '@mui/material';
 import Dropdown from "./Dropdown";
-
+import { DateInput } from "./Forms";
 
 const columns = [
   {
     field: "id",
     headerName: "ID",
     sortable: true,
-    editable: true,
+    editable: false,
   },
   {
-    field: "firstName",
-    headerName: "First name",
+    field: "name",
+    headerName: "Name",
     sortable: true,
     editable: true,
     flex: 1,
   },
   {
-    field: "lastName",
-    headerName: "Last name",
+    field: "position",
+    headerName: "Position",
     sortable: true,
     editable: true,
     flex: 1,
@@ -38,6 +38,7 @@ const columns = [
     type: "number",
     sortable: true,
     editable: true,
+    align: "left",
     flex: 1,
   },
   {
@@ -46,43 +47,46 @@ const columns = [
     sortable: true,
     editable: true,
     flex: 1,
+    renderEditCell: (params) => {
+      console.log(params)
+      return <DateInput 
+        value={params.value} 
+        onChange={(value) => params.api.setEditCellValue({ 
+          id: params.id, 
+          field: 'birthday', 
+          value 
+        })} />
+    }
   },
   {
-    field: "age",
-    headerName: "Age",
-    type: "number",
+    field: "email",
+    headerName: "Email",
     sortable: true,
-    editable: false,
-    flex: 1,
-    valueGetter: (value, row) => {
-      const birthYear = new Date(row.birthday).getFullYear();
-      const currentYear = new Date().getFullYear();
-      return currentYear - birthYear;
-    },
-  },
-  {
-    field: "save",
-    headerName: "",
-    sortable: false,
-    width: 70,
     editable: true,
     flex: 1,
-    align: "center",
-    renderEditCell: () => <Button variant="contained">Save</Button>,
   },
 ];
 
 
+export default function Table({ isLoading, tableData, setItemsToRemove, setEditData }) {
 
-export default function Table({ isLoading, tableData, setDeleteActive }) {
-
-  const handleCellEditStart = (params) => {
+  const processRowUpdate = (params) => {
     console.log("Cell edit started:", params);
+
+    const data = Object.keys(params).reduce((acc, key) => {
+      if (key !== 'id' && key !== '_id' && key !== 'save' && key !== '__v') {
+        acc[key] = params[key];
+      }
+      return acc;
+    }, {});
+    
+    setEditData({id: "/" + params._id, data: data});
   };
 
   const handleProcessRowUpdateError = (error) => {
     // console.log('Error processing row update:', error);
   };
+
 
 
   return (
@@ -95,8 +99,8 @@ export default function Table({ isLoading, tableData, setDeleteActive }) {
       loading={isLoading}
       checkboxSelection
       sx={{ border: 0 }}
-      onRowSelectionModelChange={(a) => setDeleteActive(a.length === 0)}
-      processRowUpdate={handleCellEditStart}
+      onRowSelectionModelChange={(ids,opt) => setItemsToRemove(ids.map(id=> (opt.api.getRowParams(id)).row._id))}
+      processRowUpdate={processRowUpdate}
       onProcessRowUpdateError={handleProcessRowUpdateError}
       experimentalFeatures={{ newEditingApi: true }}
     />
