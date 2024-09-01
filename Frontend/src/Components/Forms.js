@@ -1,8 +1,9 @@
 import dayjs from 'dayjs';
-import { MenuItem, Select, InputLabel, FormControl, TextField } from '@mui/material';
+import { InputLabel, FormControl, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import Dropdown from './Dropdown';
 
 
 
@@ -54,19 +55,7 @@ export function EmployeeForm({ formData, setFormData }) {
             />
             <FormControl variant="outlined" required>
                 <InputLabel id="department-label">Department</InputLabel>
-                <Select
-                    labelId="department-label"
-                    label="Department"
-                    name="department"
-                    value={formData.department || ''}
-                    onChange={handleChange}
-                >
-                    <MenuItem value=""><em>None</em></MenuItem>
-                    <MenuItem value="HR">HR</MenuItem>
-                    <MenuItem value="Sales">Sales</MenuItem>
-                    <MenuItem value="Marketing">Marketing</MenuItem>
-                    <MenuItem value="Production">Production</MenuItem>
-                </Select>
+                <Dropdown params={{row:{department: formData.department || ''}, onChange: handleChange, }}/>
             </FormControl>
 
             <DateInput value={formData.birthday} onChange={(date) => handleChange({
@@ -75,6 +64,45 @@ export function EmployeeForm({ formData, setFormData }) {
         </> 
     );
 }
+
+
+export function DepartmentForm({ formData, setFormData, }) {
+    
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevEmployee) => (
+            {...prevEmployee, [name]: value}
+        ));
+    };
+
+
+    return (
+        <>
+            <TextField
+                label="Name"
+                name="name"
+                value={formData.name || ''}
+                onChange={handleChange}
+                variant="outlined"
+                required
+            />
+            <TextField
+                label="Location"
+                name="location"
+                value={formData.location || ''}
+                onChange={handleChange}
+                variant="outlined"
+                required
+            />
+            <FormControl variant="outlined" required>
+                <InputLabel id="Manager-label">Manager</InputLabel>
+                <Dropdown params={{row:{manager: formData.manager || ''}, onChange: handleChange }}/>
+            </FormControl>
+        </> 
+    );
+}
+
+
 
 
 export function DateInput({value, onChange}){

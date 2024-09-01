@@ -6,8 +6,12 @@ const departmentSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  description: {
+  location: {
     type: String,
+  },
+  manager: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Employee',
   }
 });
 

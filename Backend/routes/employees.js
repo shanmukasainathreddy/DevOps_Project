@@ -8,9 +8,6 @@ router.post('/', controller.createEmployee);
 // Get all employees
 router.get('/', controller.getEmployees);
 
-// Get employee by ID
-router.get('/:id', controller.getEmployeeById);
-
 // Update employee
 router.put('/:id', controller.updateEmployee);
 

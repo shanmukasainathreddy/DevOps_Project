@@ -1,7 +1,12 @@
 const Employee = require('../models/Employee');
 const Department = require('../models/Department');
 
-async function getDidByName(name){
+
+const getDidByName = async (name) => {
+  if(name === ''){
+    return null;
+  }
+  
   const department = await Department.findOne({ name });
 
   if (!department) {
@@ -10,6 +15,7 @@ async function getDidByName(name){
 
   return department._id;
 }
+
 
 exports.createEmployee = async (req, res) => {
   try {
@@ -36,7 +42,7 @@ exports.getEmployees = async (req, res) => {
       ...item, 
       id: index + 1, 
       birthday: item.birthday && item.birthday.toISOString().split('T')[0],
-      department: item.department.name
+      department: item.department ? item.department.name : ''
     }));
 
     return !res ? data : res.json(data);
@@ -46,15 +52,6 @@ exports.getEmployees = async (req, res) => {
   }
 };
 
-exports.getEmployeeById = async (req, res) => {
-  try {
-    const employee = await Employee.findById(req.params.id).populate('department');
-    if (!employee) return res.status(404).json({ message: 'Employee not found' });
-    res.json(employee);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
 
 exports.updateEmployee = async (req, res) => {
   try {

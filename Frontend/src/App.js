@@ -35,7 +35,6 @@ export default function App() {
         const data = await get(section);
         
         setTableData(data);
-        console.log("data", data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       }
@@ -54,7 +53,7 @@ export default function App() {
 
       <ButtonSet {...{add, isLoading, setLoading, section, setSection, setTableData, itemsToRemove, editData, editItem, removeItems}} />
 
-      <Table {...{isLoading, tableData, setItemsToRemove, setEditData}} />
+      <Table {...{section, isLoading, tableData, setItemsToRemove, setEditData}} />
     </div>
   );
 }

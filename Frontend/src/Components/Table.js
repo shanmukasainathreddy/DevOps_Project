@@ -1,12 +1,11 @@
 import { DataGrid } from "@mui/x-data-grid";
-import { Button } from '@mui/material';
 import Dropdown from "./Dropdown";
 import { DateInput } from "./Forms";
 
-const columns = [
+const empColumns = [
   {
     field: "id",
-    headerName: "ID",
+    headerName: "No",
     sortable: true,
     editable: false,
   },
@@ -67,8 +66,48 @@ const columns = [
   },
 ];
 
+const depColumns = [
+  {
+    field: "id",
+    headerName: "No",
+    sortable: true,
+    editable: false,
+  },
+  {
+    field: "name",
+    headerName: "Name",
+    sortable: true,
+    editable: true,
+    flex: 1,
+  },
+  {
+    field: "location",
+    headerName: "Location",
+    sortable: true,
+    editable: true,
+    flex: 1,
+  },
+  {
+    field: "manager",
+    headerName: "Manager",
+    sortable: true,
+    editable: true,
+    flex: 1,
+    renderEditCell: (params) => <Dropdown params={params} />,
+  },
+  {
+    field: "numberOfEmployees",
+    headerName: "Number Of Employees",
+    type: "number",
+    sortable: true,
+    editable: false,
+    align: "center",
+    flex: 1,
+  },
+];
 
-export default function Table({ isLoading, tableData, setItemsToRemove, setEditData }) {
+
+export default function Table({ section, isLoading, tableData, setItemsToRemove, setEditData }) {
 
   const processRowUpdate = (params) => {
     console.log("Cell edit started:", params);
@@ -94,7 +133,7 @@ export default function Table({ isLoading, tableData, setItemsToRemove, setEditD
       rows={tableData}
       disableColumnMenu={true}
       hideFooterPagination={true}
-      columns={columns}
+      columns={section === 'employees' ? empColumns : depColumns}
       editMode="row"
       loading={isLoading}
       checkboxSelection

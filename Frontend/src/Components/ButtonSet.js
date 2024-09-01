@@ -3,7 +3,7 @@ import { Box, ButtonGroup, Button, Modal } from '@mui/material';
 import LoadingButton from "@mui/lab/LoadingButton";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
-import { EmployeeForm } from './Forms';
+import { DepartmentForm, EmployeeForm } from './Forms';
 
 
 export default function ButtonSet(props) {
@@ -77,7 +77,7 @@ export default function ButtonSet(props) {
 
             <Box sx={{ position: "absolute", right: "10px", width: "250px", display: "flex", justifyContent: "space-between" }}>
                 <Button variant="contained" onClick={() => setModelOpen(true)}>ADD</Button>
-                <Button variant="contained" onClick={editItem} disabled={typeof(editData) !== 'object'}>Save</Button>
+                <Button variant="contained" onClick={editItem} disabled={typeof(editData) !== 'object'}>Edit</Button>
                 <Button variant="contained" onClick={removeItems} color='error' disabled={itemsToRemove.length === 0}>Delete</Button>
             </Box>
 
@@ -99,7 +99,12 @@ export default function ButtonSet(props) {
                             '& .MuiFormControl-root': { m: 1, width: '40ch' },
                         }}
                     >
-                        <EmployeeForm {...{formData, setFormData}} />
+                        {   
+                            section === 'employees' ?
+                            <EmployeeForm {...{formData, setFormData}} />   :
+                            <DepartmentForm {...{formData, setFormData}} />
+                        }
+                        
 
                         <Box sx={{ mt: "25px", mb: "5px", display: "flex", justifyContent: "space-between", width: "85%" }}>
                             <Button 

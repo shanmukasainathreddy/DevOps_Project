@@ -1,17 +1,11 @@
-import { useState } from 'react';
 import axios from 'axios';
 
 export const useReq = (setLoading) => {
-  const [error, setError] = useState(null);
 
   const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const handleRequest = async (requestType, service, data = null) => {
     setLoading(true);
-    setError(null);
-
-    console.log("req data", data)
-
 
     try {
       let response;
@@ -35,8 +29,7 @@ export const useReq = (setLoading) => {
 
       return response.data;
     } catch (err) {
-      setError(err);
-      throw err;
+      console.log("Request Failed");
     } finally {
       setLoading(false);
     }
