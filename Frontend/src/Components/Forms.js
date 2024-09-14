@@ -53,7 +53,7 @@ export function EmployeeForm({ formData, setFormData }) {
                 required
                 type="number"
             />
-            <FormControl variant="outlined" required>
+            <FormControl variant="outlined">
                 <InputLabel id="department-label">Department</InputLabel>
                 <Dropdown params={{row:{department: formData.department || ''}, onChange: handleChange, }}/>
             </FormControl>

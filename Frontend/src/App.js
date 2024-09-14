@@ -32,7 +32,7 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await get(section);
+        const data = await get(section || 'employees');
         
         setTableData(data);
       } catch (error) {

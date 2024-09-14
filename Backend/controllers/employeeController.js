@@ -9,11 +9,11 @@ const getDidByName = async (name) => {
   
   const department = await Department.findOne({ name });
 
-  if (!department) {
-    throw 'Department not found';
-  }
+  // if (!department) {
+  //   throw 'Department not found';
+  // }
 
-  return department._id;
+  return !department ? null : department._id;
 }
 
 
