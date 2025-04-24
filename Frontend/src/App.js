@@ -48,7 +48,7 @@ export default function App() {
   return (
     <div className="App">
       <AppBar position="static">
-        <h1>Employee Management System</h1>
+        <h1>Employee Analytics</h1>
       </AppBar>
 
       <ButtonSet {...{add, isLoading, setLoading, section, setSection, setTableData, itemsToRemove, editData, editItem, removeItems}} />
